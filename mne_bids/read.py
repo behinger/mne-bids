@@ -123,7 +123,7 @@ def _handle_info_reading(sidecar_fname, raw, verbose=None):
     return raw
 
 
-def _handle_events_reading(events_fname, raw):
+def _handle_events_reading(events_fname, raw,combine_trialType_value=False):
     """Read associated events.tsv and populate raw.
 
     Handle onset, duration, and description of each event.
@@ -133,10 +133,13 @@ def _handle_events_reading(events_fname, raw):
 
     # Get the descriptions of the events
     if 'trial_type' in events_dict:
+        if combine_trialType_value and  ('value' in events_dict):
+          descriptions = np.asarray([a+':'+b for a,b in zip(events_dict["trial_type"],events_dict["value"])], dtype=str)  
         # Drop events unrelated to a trial type
         events_dict = _drop(events_dict, 'n/a', 'trial_type')
         descriptions = np.asarray(events_dict['trial_type'], dtype=str)
 
+          
     # If we don't have a proper description of the events, perhaps we have
     # at least an event value?
     elif 'value' in events_dict:
