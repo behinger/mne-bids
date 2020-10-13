@@ -123,7 +123,7 @@ def _handle_info_reading(sidecar_fname, raw, verbose=None):
     return raw
 
 
-def _handle_events_reading(events_fname, raw,combine_trialType_value=False):
+def _handle_events_reading(events_fname, raw,combine_trialType_value=True):
     """Read associated events.tsv and populate raw.
 
     Handle onset, duration, and description of each event.
